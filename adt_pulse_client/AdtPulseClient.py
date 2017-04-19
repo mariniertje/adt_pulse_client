@@ -2,6 +2,8 @@ import zeep
 import logging
 import pickle
 from bs4 import BeautifulSoup
+import requests
+from requests.auth import AuthBase
 
 ARM_TYPE_AWAY = 0
 ARM_TYPE_STAY = 1
