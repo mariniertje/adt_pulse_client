@@ -115,7 +115,7 @@ class AdtPulseClient:
 #        deviceId = self.get_security_panel_device_id(location)
 
 #        self._client.ArmSecuritySystem(self.token, location['LocationID'], deviceId, arm_type,
-                                                  '-1')  # Quickarm
+#                                                  '-1')  # Quickarm
 
 #        logging.info('armed')
 
