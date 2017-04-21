@@ -73,7 +73,7 @@ class AdtPulseClient:
         _LOGGER.info('Logging in to ADTPulse...')
         session = requests.session()
         
-        login = session.post(LOGIN_URL, self.usernameForm, self.passwordForm)
+        login = session.post(LOGIN_URL, self._usernameForm, self._passwordForm)
         
         if login.ResultData == 'Success':
             self.token = login.SessionID
