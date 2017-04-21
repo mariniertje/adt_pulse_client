@@ -166,7 +166,8 @@ class AdtPulseClient:
         #print(alarm_state_string)
         # We can now simply select the cleaned up Alarm State by using the first value out of this new array
         alarm_state_value = alarm_state_string[0]
-        return alarm_state_value
+        state = alarm_state_value
+        return state
 
     def is_armed(self, location_name=False):
         """return True or False if the system is alarmed in any way"""
