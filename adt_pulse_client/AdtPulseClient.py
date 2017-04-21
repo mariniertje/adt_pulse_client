@@ -75,7 +75,7 @@ class AdtPulseClient:
         
         login = session.post(LOGIN_URL, self._usernameForm, self._passwordForm)
         
-        if login.ResultData == 'Success':
+        if login.status_code == '200':
             self.token = login.SessionID
 #            self.populate_details()
             _LOGGER.info('Successfully logged in')
