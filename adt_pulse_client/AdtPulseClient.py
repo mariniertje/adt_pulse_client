@@ -53,15 +53,15 @@ class AdtPulseClient:
     ARMED_AWAY = 10201
 
     def _save_cookies(requests_cookiejar, filename):
-    """Save cookies to a file."""
-    with open(filename, 'wb') as handle:
-        pickle.dump(requests_cookiejar, handle)
+		"""Save cookies to a file."""
+		with open(filename, 'wb') as handle:
+			pickle.dump(requests_cookiejar, handle)
 
 
     def _load_cookies(filename):
-    """Load cookies from a file."""
-    with open(filename, 'rb') as handle:
-        return pickle.load(handle)
+		"""Load cookies from a file."""
+		with open(filename, 'rb') as handle:
+			return pickle.load(handle)
         
 	def __init__(self, hass, name, username, password, cookie_path):
 		_LOGGER.info('Setting up ADTPulse...')
