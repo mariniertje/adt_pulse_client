@@ -59,11 +59,11 @@ class AdtPulseClient:
         with open(filename, 'rb') as handle:
             return pickle.load(handle)
         
-    def __init__(self, hass, name, username, password, cookie_path):
+    def __init__(self, hass, name, username, password):
         _LOGGER.info('Setting up ADTPulse...')
         self.usernameForm = username
         self.passwordForm = password
-        self.cookie_path = cookie_path
+#        self.cookie_path = cookie_path
         self.token = False
         self._state = STATE_UNKNOWN
 
