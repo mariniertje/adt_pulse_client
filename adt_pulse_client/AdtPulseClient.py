@@ -44,34 +44,30 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko
              'Chrome/41.0.2228.0 Safari/537.36'
 
 
-
-
-
 class AdtPulseClient:
     DISARMED = 10200
     ARMED_STAY = 10203
     ARMED_AWAY = 10201
 
     def _save_cookies(requests_cookiejar, filename):
-		"""Save cookies to a file."""
-		with open(filename, 'wb') as handle:
-			pickle.dump(requests_cookiejar, handle)
-
+        """Save cookies to a file."""
+        with open(filename, 'wb') as handle:
+            pickle.dump(requests_cookiejar, handle)
 
     def _load_cookies(filename):
-		"""Load cookies from a file."""
-		with open(filename, 'rb') as handle:
-			return pickle.load(handle)
+        """Load cookies from a file."""
+        with open(filename, 'rb') as handle:
+            return pickle.load(handle)
         
-	def __init__(self, hass, name, username, password, cookie_path):
-		_LOGGER.info('Setting up ADTPulse...')
-		self.usernameForm = username
-		self.passwordForm = password
-		self.cookie_path = cookie_path
-		self.token = False
-		self._state = STATE_UNKNOWN
+    def __init__(self, hass, name, username, password, cookie_path):
+        _LOGGER.info('Setting up ADTPulse...')
+        self.usernameForm = username
+        self.passwordForm = password
+        self.cookie_path = cookie_path
+        self.token = False
+        self._state = STATE_UNKNOWN
 
-		self.authenticate()
+        self.authenticate()
 
     def authenticate(self):
         """login to the system"""
@@ -83,7 +79,7 @@ class AdtPulseClient:
         if login.ResultData == 'Success':
             self.token = login.SessionID
 #            self.populate_details()
-			_LOGGER.info('Successfully logged in')
+            _LOGGER.info('Successfully logged in')
 
         else:
             Exception('Unable to login to portal.adtpulse.com')
@@ -154,24 +150,24 @@ class AdtPulseClient:
     def get_armed_status(self, alarm_state_value=False):
         """Get the status of the panel"""
 
-		
-		parsed = BeautifulSoup(login.content, HTML_PARSER)
-		# Find the DIV that contains the current alarm state
-		alarm_state_div = parsed.find_all('div', id = 'divOrbTextSummary')
-		#print (alarm_state_div)
-		# Split the DIV into an array so that we can extract the value
-		alarm_state_array = str(alarm_state_div).split('>')
-		# If we check the array, we can see that the value we need is the 3rd item in the array (DIV-open, SPAN-open, ALARM STATE including SPAN-close, DIV-close)
-		#print (alarm_state_array)
-		# We can easily get rid of the DIV-open tag and the SPAN-open tag, by directly selecting the 3rd value from the array.
-		#print(alarm_state_array[2])
-		# However, this still includes a SPAN-close tag that we need to get rid of
-		# Let's remove the closing SPAN tag as well by splitting this string by the opening of the tag with the '<' character
-		alarm_state_string = str(alarm_state_array[2]).split('<')
-		#print(alarm_state_string)
-		# We can now simply select the cleaned up Alarm State by using the first value out of this new array
-		alarm_state_value = alarm_state_string[0]
-		return alarm_state_value
+        
+        parsed = BeautifulSoup(login.content, HTML_PARSER)
+        # Find the DIV that contains the current alarm state
+        alarm_state_div = parsed.find_all('div', id = 'divOrbTextSummary')
+        #print (alarm_state_div)
+        # Split the DIV into an array so that we can extract the value
+        alarm_state_array = str(alarm_state_div).split('>')
+        # If we check the array, we can see that the value we need is the 3rd item in the array (DIV-open, SPAN-open, ALARM STATE including SPAN-close, DIV-close)
+        #print (alarm_state_array)
+        # We can easily get rid of the DIV-open tag and the SPAN-open tag, by directly selecting the 3rd value from the array.
+        #print(alarm_state_array[2])
+        # However, this still includes a SPAN-close tag that we need to get rid of
+        # Let's remove the closing SPAN tag as well by splitting this string by the opening of the tag with the '<' character
+        alarm_state_string = str(alarm_state_array[2]).split('<')
+        #print(alarm_state_string)
+        # We can now simply select the cleaned up Alarm State by using the first value out of this new array
+        alarm_state_value = alarm_state_string[0]
+        return alarm_state_value
 
     def is_armed(self, location_name=False):
         """return True or False if the system is alarmed in any way"""
