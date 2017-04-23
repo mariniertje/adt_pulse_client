@@ -84,6 +84,7 @@ class AdtPulseClient:
             Exception('Unable to login to portal.adtpulse.com')
             _LOGGER.info('Unable to login to portal.adtpulse.com')                
 
+        return login
 
 
     def populate_details(self):
@@ -149,7 +150,6 @@ class AdtPulseClient:
     def get_armed_status(self, alarm_state_value=False):
         """Get the status of the panel"""
 
-        
         parsed = BeautifulSoup(login.content, HTML_PARSER)
         # Find the DIV that contains the current alarm state
         alarm_state_div = parsed.find_all('div', id = 'divOrbTextSummary')
