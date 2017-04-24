@@ -147,10 +147,10 @@ class AdtPulseClient:
 
         return location
 
-    def get_armed_status(self, login, alarm_state_value=False):
+    def get_armed_status(self, alarm_state_value=False):
         """Get the status of the panel"""
 
-        parsed = BeautifulSoup(login.content, HTML_PARSER)
+        parsed = BeautifulSoup(authenticate(self).login.content, HTML_PARSER)
         # Find the DIV that contains the current alarm state
         alarm_state_div = parsed.find_all('div', id = 'divOrbTextSummary')
         #print (alarm_state_div)
