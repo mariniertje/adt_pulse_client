@@ -76,6 +76,8 @@ class AdtPulseClient:
         
         login = session.post(LOGIN_URL, self._usernameForm, self._passwordForm)
         
+        logging.warning('HTML from page: \n %s \n \n cookies are = %s ', login.text, session.cookies)
+        
         if login.status_code == '200':
 #            self._x-token = login.SessionID
 #            self.populate_details()
