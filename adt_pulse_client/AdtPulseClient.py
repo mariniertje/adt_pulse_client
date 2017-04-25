@@ -67,8 +67,8 @@ class AdtPulseClient:
 #        self._cookie_path = cookie_path
         self._token = False
 
-        payload = {'usernameForm': usernameForm, 
-                   'passwordForm': passwordForm}
+        payload = {'usernameForm': self._usernameForm, 
+                   'passwordForm': self._passwordForm}
 
         return payload
         logging.warning('payload = %s', payload)
