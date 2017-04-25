@@ -62,27 +62,37 @@ class AdtPulseClient:
         
     def __init__(self, hass, name, username, password):
         _LOGGER.info('Setting up ADTPulse...')
-        self._usernameForm = username
-        self._passwordForm = password
+        self._username = username
+        self._password = password
 #        self._cookie_path = cookie_path
         self._token = False
 
+        payload = {'usernameForm': username, 
+                   'passwordForm': password}
+
+        return payload
+
         self.authenticate()
 
-    def authenticate(self, cookie_path=COOKIE_PATH):
+    def authenticate(self, payload, cookie_path=COOKIE_PATH):
         """login to the system"""
         _LOGGER.info('Logging in to ADTPulse...')
+
         session = requests.session()
-        
-        login = session.post(LOGIN_URL, self._usernameForm, self._passwordForm)
+
+        if os.path.exists(cookie_path):
+            session.cookies = _load_cookies(cookie_path)     
+
+        login = session.post(LOGIN_URL, data = payload)
         
         logging.warning('HTML from page: \n %s \n \n cookies are = %s ', login.text, session.cookies)
-        
+
+        _save_cookies(session.cookies, session.auth.cookie_path)        
         if login.status_code == '200':
 #            self._x-token = login.SessionID
 #            self.populate_details()
             _LOGGER.info('Successfully logged in')
-            _save_cookies(session.cookies, cookie_path)
+
         else:
             Exception('Unable to login to portal.adtpulse.com')
             logging.warning('Unable to login to portal.adtpulse.com -- login_status_code = %s and cookies are = %s ! ', login.status_code, session.cookies)                
