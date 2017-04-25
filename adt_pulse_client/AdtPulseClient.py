@@ -62,16 +62,16 @@ class AdtPulseClient:
         
     def __init__(self, hass, name, username, password):
         _LOGGER.info('Setting up ADTPulse...')
-        self._username = username
-        self._password = password
+        self._usernameForm = username
+        self._passwordForm = password
 #        self._cookie_path = cookie_path
         self._token = False
 
-        payload = {'usernameForm': username, 
-                   'passwordForm': password}
+        payload = {'usernameForm': usernameForm, 
+                   'passwordForm': passwordForm}
 
         return payload
-
+        logging.warning('payload = %s', payload)
         self.authenticate()
 
     def authenticate(self, payload, cookie_path=COOKIE_PATH):
