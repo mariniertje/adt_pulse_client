@@ -80,7 +80,7 @@ class AdtPulseClient:
             self.token = login.SessionID
 #            self.populate_details()
             _LOGGER.info('Successfully logged in')
-        _save_cookies(session.cookies, cookie_path)
+            _save_cookies(session.cookies, cookie_path)
         else:
             Exception('Unable to login to portal.adtpulse.com')
             _LOGGER.info('Unable to login to portal.adtpulse.com')                
