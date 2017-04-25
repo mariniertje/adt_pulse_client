@@ -7,6 +7,7 @@ from dateutil.parser import parse
 import requests
 from requests.auth import AuthBase
 
+logging.basicConfig(filename='adtpulse.log',level=logging.DEBUG)
 _LOGGER = logging.getLogger(__name__)
 
 ARM_TYPE_AWAY = 0
@@ -68,7 +69,7 @@ class AdtPulseClient:
 
         self.authenticate()
 
-    def authenticate(self):
+    def authenticate(self, cookie_path=COOKIE_PATH):
         """login to the system"""
         _LOGGER.info('Logging in to ADTPulse...')
         session = requests.session()
@@ -79,7 +80,7 @@ class AdtPulseClient:
             self.token = login.SessionID
 #            self.populate_details()
             _LOGGER.info('Successfully logged in')
-
+        _save_cookies(session.cookies, cookie_path)
         else:
             Exception('Unable to login to portal.adtpulse.com')
             _LOGGER.info('Unable to login to portal.adtpulse.com')                
@@ -151,7 +152,7 @@ class AdtPulseClient:
         """Get the status of the panel"""
         _LOGGER.info('Retrieving alarm state from ADTPulse...')
         session = requests.session()
-        dashboard = session.post(DASHBOARD_URL)
+        dashboard = session.get(DASHBOARD_URL)
         
         parsed = BeautifulSoup(dashboard.content, HTML_PARSER)
         # Find the DIV that contains the current alarm state
