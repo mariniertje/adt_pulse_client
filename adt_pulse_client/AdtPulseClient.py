@@ -77,13 +77,13 @@ class AdtPulseClient:
         login = session.post(LOGIN_URL, self._usernameForm, self._passwordForm)
         
         if login.status_code == '200':
-            self.token = login.SessionID
+            self._x-token = login.SessionID
 #            self.populate_details()
             _LOGGER.info('Successfully logged in')
             _save_cookies(session.cookies, cookie_path)
         else:
             Exception('Unable to login to portal.adtpulse.com')
-            logging.warning('Unable to login to portal.adtpulse.com -- token = %s and login_status_code = %s', self.token, login.status_code)                
+            logging.warning('Unable to login to portal.adtpulse.com -- login_status_code = %s and cookies are = %s ! ', login.status_code, session.cookies)                
 
         return login
 
