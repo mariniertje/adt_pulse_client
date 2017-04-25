@@ -148,10 +148,11 @@ class AdtPulseClient:
 
         return location
 
-    def get_armed_status(self, alarm_state_value=False, cookie_path=COOKIE_PATH):
+    def get_armed_status(self, alarm_state_value=False):
         """Get the status of the panel"""
         _LOGGER.info('Retrieving alarm state from ADTPulse...')
-        _load_cookies(session.cookies, cookie_path)
+        _load_cookies('adtpulse_cookies.pickle')
+
         session = requests.session()
         dashboard = session.get(DASHBOARD_URL)
         
