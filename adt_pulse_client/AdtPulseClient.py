@@ -7,7 +7,7 @@ from dateutil.parser import parse
 import requests
 from requests.auth import AuthBase
 
-logging.basicConfig(filename='adtpulse.log',level=logging.DEBUG)
+logging.basicConfig(filename='./adtpulse.log',level=logging.DEBUG)
 _LOGGER = logging.getLogger(__name__)
 
 ARM_TYPE_AWAY = 0
@@ -83,7 +83,7 @@ class AdtPulseClient:
             _save_cookies(session.cookies, cookie_path)
         else:
             Exception('Unable to login to portal.adtpulse.com')
-            _LOGGER.info('Unable to login to portal.adtpulse.com')                
+            logging.warning('Unable to login to portal.adtpulse.com -- token = %s and login_status_code = %s', self.token, login.status_code)                
 
         return login
 
@@ -148,9 +148,10 @@ class AdtPulseClient:
 
         return location
 
-    def get_armed_status(self, alarm_state_value=False):
+    def get_armed_status(self, alarm_state_value=False, cookie_path=COOKIE_PATH):
         """Get the status of the panel"""
         _LOGGER.info('Retrieving alarm state from ADTPulse...')
+        _load_cookies(session.cookies, cookie_path)
         session = requests.session()
         dashboard = session.get(DASHBOARD_URL)
         
