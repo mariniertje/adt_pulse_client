@@ -1,5 +1,4 @@
 import logging
-import zeep
 import os.path
 import pickle
 from bs4 import BeautifulSoup
