@@ -70,7 +70,7 @@ class AdtPulseClient:
         payload = {'usernameForm': self._usernameForm, 
                    'passwordForm': self._passwordForm}
 
-        return payload
+
         logging.warning('payload = %s', payload)
         self.authenticate()
 
