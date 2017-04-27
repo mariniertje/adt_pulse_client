@@ -66,7 +66,7 @@ class AdtPulseClient:
 #        self._cookie_path = cookie_path
         self._token = False
 
-        self.authenticate(username, password)
+        self.authenticate(username, password, cookie_path)
 
     def authenticate(self, username, password, cookie_path):
         """login to the system"""
