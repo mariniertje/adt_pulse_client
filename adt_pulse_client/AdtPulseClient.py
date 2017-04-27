@@ -90,7 +90,7 @@ class AdtPulseClient:
         self._save_cookies(session.cookies, session.auth.cookie_path)        
         if login.status_code == '200':
             self._JSESSIONID = login.JSESSIONID
-            self._x-token = login.x-token
+#            self._x-token = login.x-token
 #            self.populate_details()
             _LOGGER.info('Successfully logged in')
 
