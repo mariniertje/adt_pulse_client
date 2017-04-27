@@ -68,12 +68,12 @@ class AdtPulseClient:
 
         self.authenticate(username, password)
 
-    def authenticate(self, username, password, cookie_path=COOKIE_PATH):
+    def authenticate(self, username, password, cookie_path):
         """login to the system"""
         _LOGGER.info('Logging in to ADTPulse...')
 
-        payload = {'usernameForm': self._username, 
-                   'passwordForm': self._password}
+        payload = {'usernameForm': username, 
+                   'passwordForm': password}
 
 
         logging.warning('payload = %s', payload)
@@ -87,7 +87,7 @@ class AdtPulseClient:
         
         logging.warning('URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
 
-        self._save_cookies(session.cookies, session.auth.cookie_path)        
+        self._save_cookies(session.cookies, cookie_path)        
         if login.status_code == '200':
             self._JSESSIONID = login.JSESSIONID
 #            self._x-token = login.x-token
