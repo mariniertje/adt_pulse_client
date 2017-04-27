@@ -82,7 +82,6 @@ class AdtPulseClient:
         payload = {'usernameForm': username, 
                    'passwordForm': password}
 
-
         logging.warning('payload = %s', payload)
 
         if os.path.exists(cookie_path):
