@@ -38,7 +38,7 @@ LOGIN_URL = ADTPULSE_DOMAIN + ADTPULSE_CONTEXT_PATH + '/access/signin.jsp'
 DASHBOARD_URL = ADTPULSE_DOMAIN + ADTPULSE_CONTEXT_PATH + '/summary/summary.jsp'
 #print(DASHBOARD_URL)
 
-COOKIE_PATH = './adtpulse_cookies.pickle'
+DEFAULT_COOKIEPATH = './adtpulse_cookies.pickle'
 ATTRIBUTION = 'Information provided by portal.adtpulse.com'
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) ' \
              'Chrome/41.0.2228.0 Safari/537.36'
@@ -63,7 +63,10 @@ class AdtPulseClient:
         _LOGGER.info('Setting up ADTPulse...')
         self._username = username
         self._password = password
-#        self._cookie_path = cookie_path
+        if 'CONF_COOKIEPATH' in globals():
+            cookie_path = config.get(CONF_COOKIEPATH)
+        else:
+            cookie_path = DEFAULT_COOKIEPATH
         self._token = False
 
         self.authenticate(username, password, cookie_path)
