@@ -76,7 +76,7 @@ class AdtPulseClient:
                    'passwordForm': self._password}
 
 
-#        logging.warning('payload = %s', payload)
+        logging.warning('payload = %s', payload)
 
         session = requests.session()
 
@@ -85,18 +85,21 @@ class AdtPulseClient:
 
         login = session.post(LOGIN_URL, data = payload)
         
-        logging.warning('HTML from page: \n %s \n \n cookies are = %s ', login.text, session.cookies)
+        logging.warning('URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
 
-        _save_cookies(session.cookies, session.auth.cookie_path)        
+        self._save_cookies(session.cookies, session.auth.cookie_path)        
         if login.status_code == '200':
-#            self._x-token = login.SessionID
+            self._JSESSIONID = login.JSESSIONID
+            self._x-token = login.x-token
 #            self.populate_details()
             _LOGGER.info('Successfully logged in')
 
         else:
             Exception('Unable to login to portal.adtpulse.com')
             logging.warning('Unable to login to portal.adtpulse.com -- login_status_code = %s and cookies are = %s ! ', login.status_code, session.cookies)                
-
+        
+        get_armed_status()
+        
         return login
 
 
