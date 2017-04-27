@@ -49,6 +49,11 @@ class AdtPulseClient:
     ARMED_STAY = 10203
     ARMED_AWAY = 10201
 
+	if 'CONF_COOKIEPATH' in globals():
+		cookie_path = config.get(CONF_COOKIEPATH)
+	else:
+		cookie_path = DEFAULT_COOKIEPATH
+		
     def _save_cookies(requests_cookiejar, filename):
         """Save cookies to a file."""
         with open(filename, 'wb') as handle:
@@ -59,20 +64,19 @@ class AdtPulseClient:
         with open(filename, 'rb') as handle:
             return pickle.load(handle)
         
-    def __init__(self, hass, name, username, password):
+    def __init__(self, hass, name, username, password, cookie_path):
         _LOGGER.info('Setting up ADTPulse...')
         self._username = username
         self._password = password
-        if 'CONF_COOKIEPATH' in globals():
-            cookie_path = config.get(CONF_COOKIEPATH)
-        else:
-            cookie_path = DEFAULT_COOKIEPATH
+
         self._token = False
 
-        self.authenticate(username, password, cookie_path)
+        self.authenticate(self, username, password, cookie_path)
 
     def authenticate(self, username, password, cookie_path):
         """login to the system"""
+        session = requests.session()
+        login = session.get(LOGIN_URL)
         _LOGGER.info('Logging in to ADTPulse...')
 
         payload = {'usernameForm': username, 
@@ -81,8 +85,6 @@ class AdtPulseClient:
 
         logging.warning('payload = %s', payload)
 
-        session = requests.session()
-
         if os.path.exists(cookie_path):
             session.cookies = _load_cookies(cookie_path)     
 
@@ -90,7 +92,8 @@ class AdtPulseClient:
         
         logging.warning('URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
 
-        self._save_cookies(session.cookies, cookie_path)        
+        self._save_cookies(session.cookies, cookie_path)
+        
         if login.status_code == '200':
             self._JSESSIONID = login.JSESSIONID
 #            self._x-token = login.x-token
