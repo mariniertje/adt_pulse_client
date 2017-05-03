@@ -66,10 +66,11 @@ class AdtPulseClient:
         
     def __init__(self, hass, name, username, password, cookie_path):
         _LOGGER.info('Setting up ADTPulse...')
+        self._name = name
         self._username = username
         self._password = password
-
         self._token = False
+        self._cookie_path = cookie_path
 
         self.authenticate(self, username, password, cookie_path)
 
