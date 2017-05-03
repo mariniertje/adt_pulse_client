@@ -89,9 +89,13 @@ class AdtPulseClient:
 
         login = session.post(LOGIN_URL, data = payload)
         
-        logging.warning('URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
+        logging.warning('Login POST URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
 
         self._save_cookies(session.cookies, cookie_path)
+
+        login = session.get(DASHBOARD_URL, data = payload)
+
+        logging.warning('Login GET URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
         
         if login.status_code == '200':
             self._JSESSIONID = login.JSESSIONID
