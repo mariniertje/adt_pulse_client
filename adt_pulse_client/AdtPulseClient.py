@@ -49,10 +49,10 @@ class AdtPulseClient:
     ARMED_STAY = 10203
     ARMED_AWAY = 10201
 
-	if 'CONF_COOKIEPATH' in globals():
-		cookie_path = config.get(CONF_COOKIEPATH)
-	else:
-		cookie_path = DEFAULT_COOKIEPATH
+    if 'CONF_COOKIEPATH' in globals():
+        cookie_path = config.get(CONF_COOKIEPATH)
+    else:
+	cookie_path = DEFAULT_COOKIEPATH
 		
     def _save_cookies(requests_cookiejar, filename):
         """Save cookies to a file."""
