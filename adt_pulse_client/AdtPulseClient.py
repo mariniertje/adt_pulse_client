@@ -51,8 +51,10 @@ class AdtPulseClient:
 
     if 'CONF_COOKIEPATH' in globals():
         cookie_path = config.get(CONF_COOKIEPATH)
+	_LOGGER.debug(cookie_path)
     else:
 	cookie_path = DEFAULT_COOKIEPATH
+	_LOGGER.debug(cookie_path)
 		
     def _save_cookies(requests_cookiejar, filename):
         """Save cookies to a file."""
@@ -83,20 +85,20 @@ class AdtPulseClient:
         payload = {'usernameForm': username, 
                    'passwordForm': password}
 
-        logging.warning('payload = %s', payload)
+        _LOGGER.warning('payload = %s', payload)
 
         if os.path.exists(cookie_path):
             session.cookies = _load_cookies(cookie_path)     
 
         login = session.post(LOGIN_URL, data = payload)
         
-        logging.warning('Login POST URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
+        _LOGGER.warning('Login POST URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
 
         self._save_cookies(session.cookies, cookie_path)
 
         login = session.get(DASHBOARD_URL, data = payload)
 
-        logging.warning('Login GET URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
+        _LOGGER.warning('Login GET URL: \n %s \n \n cookies are = %s ', login.url, session.cookies)
         
         if login.status_code == '200':
             self._JSESSIONID = login.JSESSIONID
@@ -106,7 +108,7 @@ class AdtPulseClient:
 
         else:
             Exception('Unable to login to portal.adtpulse.com')
-            logging.warning('Unable to login to portal.adtpulse.com -- login_status_code = %s and cookies are = %s ! ', login.status_code, session.cookies)                
+            _LOGGER.warning('Unable to login to portal.adtpulse.com -- login_status_code = %s and cookies are = %s ! ', login.status_code, session.cookies)                
         
         get_armed_status()
         
@@ -143,7 +145,7 @@ class AdtPulseClient:
 #        self._client.ArmSecuritySystem(self.token, location['LocationID'], deviceId, arm_type,
 #                                                  '-1')  # Quickarm
 
-#        logging.info('armed')
+#        _LOGGER.info('armed')
 
     def get_security_panel_device_id(self, location):
         """find the device id of the security panel"""
@@ -199,6 +201,7 @@ class AdtPulseClient:
         alarm_state_value = alarm_state_string[0]
         state = alarm_state_value
         return state
+        _LOGGER.info("Current Alarm State %s", state)
 
     def is_armed(self, location_name=False):
         """return True or False if the system is alarmed in any way"""
