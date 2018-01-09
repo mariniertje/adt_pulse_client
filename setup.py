@@ -11,8 +11,8 @@ setup(
   download_url = 'https://github.com/mariniertje/adt_pulse_client',
   keywords = ['alarm','ADTPulse'],
   package_data = {'': ['data/*.json']},
-  requires = ['zeep', 'pprint', 'logging', 'logging.handlers', 'sys'],
-  install_requires = ['zeep'],
+  requires = ['requests', 'pprint', 'logging', 'logging.handlers', 'sys'],
+  install_requires = ['requests'],
 #  packages=find_packages(exclude=['tests', 'tests.*']),
   packages=['adt_pulse_client'],
   include_package_data=True, # use MANIFEST.in during install
